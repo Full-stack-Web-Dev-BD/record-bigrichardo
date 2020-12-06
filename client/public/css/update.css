@@ -1,0 +1,96 @@
+.MuiBox-root-17{
+    margin: 0 !important;
+}
+body{
+    background-color: #FFFFFF;
+}
+.makeStyles-active-16 {
+    background: #E2E2E2 !important;
+    border-radius: 33px !important;
+    color: black !important;
+    padding: 10px;
+}
+.MuiButton-root:hover{
+    border-radius: 33px !important;
+}
+.MuiButton-label{
+    font-size: 18px;
+}
+.makeStyles-icon-15{
+    color: black !important;
+}
+
+.upgrade {    
+    display: 'flex';
+    padding-top:  0;
+    padding-bottom:  0;
+    background: linear-gradient(330deg, #29A8EC 0%, #29A8EC 25%, #29A8EC 50%, #DE7761 75%, #DE7761 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.sellc{
+    font-weight: 700;
+    background: linear-gradient(330deg, #5D12DF 0%, #5D12DF 25%, #5D12DF 50%, #1A65F6 75%, #1A65F6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.MuiToolbar-root{
+    background-color: #F7F7F7;
+}
+.buy{
+    background: black;
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 15px 71px;
+}
+.buy:hover{
+    color: white;
+}
+.label{
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: .5rem;
+    font-size: 18px;
+}
+.txt{
+    font-weight: 700;
+    font-size: 18px;
+}
+.page-footer{
+    background-color: black;
+    padding-right: 50px;
+    text-align: right;
+    background: rgb(231,175,84);
+    background: linear-gradient(90deg, rgba(231,175,84,1) 0%, rgba(219,105,100,1) 51%, rgba(107,160,179,1) 76%, rgba(41,168,236,1) 100%);
+}
+.page-footer button{
+    margin: 25px 0;
+}
+.page-content{
+    min-height: 850px;
+}
+.save-style {
+    background: white;
+    font-size: 16px;
+    color: #2EA7E8;
+    text-transform: capitalize;
+    font-weight: 700;
+    border-radius: 20px;
+    padding: 8px 27px;
+}
+.draft-style {
+    font-size: 16px;
+    margin-right: 35px !important;
+    color: white;
+    text-transform: capitalize;
+    font-weight: 700;
+    padding: 8px 27px;
+}
+.last30{
+    border: 1px solid;
+    border-radius: 50px;
+    font-size: 16px;
+    FONT-WEIGHT: 700;
+    padding: 7px 20px;
+}

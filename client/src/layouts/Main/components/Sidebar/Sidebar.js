@@ -2,20 +2,27 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Drawer } from '@material-ui/core';
+import { Box, Button, Drawer, Typography } from '@material-ui/core';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import UpdateIcon from '@material-ui/icons/Update';
 import { SidebarNav } from './components';
 import { connect } from 'react-redux';
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
 import HomeIcon from '@material-ui/icons/Home';
 
+
+
+import VideocamOutlinedIcon from '@material-ui/icons/VideocamOutlined';
+import LibraryAddCheckSharpIcon from '@material-ui/icons/LibraryAddCheckSharp';
+import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+
+
 const useStyles = makeStyles(theme => ({
   drawer: {
-    width: 240,
+    width: 280,
     [theme.breakpoints.up('lg')]: {
       marginTop: 64,
       height: 'calc(100% - 64px)'
@@ -41,50 +48,22 @@ const Sidebar = props => {
   const {user}=props.auth
   const classes = useStyles();
 
-  const AdminPages = [
-    {
-      title: 'Home ',
-      href: '/home',
-      icon: <HomeIcon />
-    },
-    {
-      title: 'Library ',
-      href: '/form',
-      icon: <FeedbackIcon />
-    },
-    {
-      title: 'Upgrade',
-      href: '/account',
-      icon: <AccountBoxIcon />
-    },
-  ];
   
   const UserPages = [
     {
-      title: 'Home',
-      href: '/home',
-      icon: <HomeIcon />
-    },
-    {
-      title: 'Create New ',
+      title: 'Record',
       href: '/create',
-      icon: <CreateNewFolderIcon />
+      icon: <VideocamOutlinedIcon />
     },
     {
       title: 'Library ',
       href: '/library',
-      icon: <VideoLibraryIcon />
+      icon: <LibraryAddCheckSharpIcon />
     },
     {
       title: 'Upgrade',
       href: '/upgrade',
-      icon: <UpdateIcon />
-    },
-    
-    {
-      title: 'Account',
-      href: '/account',
-      icon: <AccountBoxIcon />
+      icon: <ArrowUpwardOutlinedIcon style={{color:'#E4A157',border:'2px  solid #E4A157' ,padding:'2px ',borderRadius:'100%'}} />
     },
     {
       title: 'Help',
@@ -105,18 +84,26 @@ const Sidebar = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        {
-          user.type=='admin'?
-          <SidebarNav
-            className={classes.nav}
-            pages={AdminPages}
-          />:
           <SidebarNav
             className={classes.nav}
             pages={UserPages}
           />
-        }
       </div>
+      
+      <Box
+        p={2}
+        m={2}
+        style={{backgroundColor:'#f7f7f7',textAlign:'center'}}
+      >
+        <p>powered by <span className="sellc">sellcrowd</span></p>
+        <p style={{fontSize:'14px'}}>2020 © OfferVid. All Right Reserved</p>
+        <Box
+          display="flex"
+          justifyContent="center"
+          mt={2}
+        >
+        </Box>
+      </Box>
     </Drawer>
   );
 };

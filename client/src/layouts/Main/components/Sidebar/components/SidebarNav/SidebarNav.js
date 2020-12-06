@@ -71,8 +71,14 @@ const SidebarNav = props => {
             component={CustomRouterLink}
             to={page.href}
           >
-            <div className={classes.icon}>{page.icon}</div>
-            {page.title}
+            <div className={classes.icon} style={page.style}>{page.icon}</div>
+            {
+              page.title === 'Upgrade' ?
+                <span className="upgrade">Upgrade </span> :
+                <span>
+                  {page.title}
+                </span>
+            }
           </Button>
         </ListItem>
       ))}

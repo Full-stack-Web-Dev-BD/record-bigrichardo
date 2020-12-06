@@ -31,6 +31,8 @@ import Upgrade from 'views/Upgrade/Upgrade'
 import Help from 'views/Help/Help'
 
 
+import './updatedcss.css'
+
 const browserHistory = createBrowserHistory();
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {

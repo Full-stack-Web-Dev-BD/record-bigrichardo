@@ -9,6 +9,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import { logoutUser } from '../../../../actions/authActions'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
+
 const useStyles = makeStyles(theme => ({
   root: {
     boxShadow: 'none'
@@ -52,13 +55,15 @@ const Topbar = props => {
       className={clsx(classes.root, className)}
     >
       <Toolbar>
-        <RouterLink to="/dashboard" style={{color:'white'}}>
-          OfferVID
-        </RouterLink>
+        <div style={{width:'280px',backgroundColor:'#F7F7F7'}}>
+          <RouterLink to="/dashboard" style={{color:'white'}}>
+            <img src='/images/offervid.jpg' style={{width:'165px'}}/>
+          </RouterLink>
+        </div>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
-          Log Out
-          <IconButton onClick={logout} color="inherit">
+        <ArrowForwardIcon style={{color:'black'}}/><span  style={{color:'black',fontWeight:500,marginRight:'60px'}}>Log Out</span>
+          {/* <IconButton onClick={logout} color="inherit">
             <Badge
               badgeContent={notifications.length}
               color="primary"
@@ -66,7 +71,7 @@ const Topbar = props => {
             >
               <ExitToAppIcon />
             </Badge>
-          </IconButton>
+          </IconButton> */}
         </Hidden>
       </Toolbar>
     </AppBar>

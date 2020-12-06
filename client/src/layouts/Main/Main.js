@@ -4,7 +4,9 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
 
-import { Sidebar, Topbar, Footer } from './components';
+import { Sidebar, Topbar } from './components';
+import PageFooter from './components/Footer/PageFooter';
+// import { Sidebar, Topbar, Footer } from './components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,9 +58,8 @@ const Main = props => {
         open={shouldOpenSidebar}
         variant={isDesktop ? 'persistent' : 'temporary'}
       />
-      <main className={classes.content}>
+      <main style={{backgroundColor:'#FFFFFF'}} className={classes.content}>
         {children}
-        <Footer />
       </main>
     </div>
   );
