@@ -149,7 +149,7 @@ const Login = props => {
       .then(res => {
         const { token } = res.data;
         localStorage.setItem('jwtToken', token);
-        window.location.href='/home'
+        window.location.href='/create'
       })
       .catch(err =>{
         setError(err.response.data)
@@ -166,14 +166,6 @@ const Login = props => {
           item
           lg={5}
         >
-          <div className={classes.quote}>
-            <div className={classes.quoteInner}>
-              <Typography
-                className={classes.quoteText}
-                variant="h1"
-              >During the pandemic, voiceover work has become a consistent resource for me to generate revenue.</Typography>
-            </div>
-          </div>
         </Grid>
         <Grid
           className={classes.content}

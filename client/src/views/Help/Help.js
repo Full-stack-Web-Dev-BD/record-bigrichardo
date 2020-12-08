@@ -1,17 +1,21 @@
-import { Card, CardContent } from '@material-ui/core'
-import React from 'react'
-import About from './About'
+import { p } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
+import DoneIcon from '@material-ui/icons/Done';
+
 
 const Help = () => {
-    return (
-        <div className="mt-5 col-md-8 offset-md-2">
-            <Card>
-                <CardContent>
-                    <About />
-                </CardContent>
-            </Card>
+  return (
+    <>
+      <div className="row pt-3 pb-5 bg-white ">
+        <div className="col-md-10 offset-md-1">
+          <div>
+            <h1>Help</h1>
+          </div>
+          <p className="txt mt-5">Your text will goes here :D</p>
         </div>
-    )
+      </div>
+    </>
+  )
 }
 
 export default Help

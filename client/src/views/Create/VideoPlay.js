@@ -42,7 +42,7 @@ export default function VideoPlay({ srcObject }) {
                 <DialogContent>
                     <h3>Play your video and publish</h3>
                     <DialogContentText style={{ visibility: 'hidden' }} id="alert-dialog-slide-description">Let Google help apps determine location. This means sending anonymous location .</DialogContentText>
-                    <video controls autoPlay src={srcObject} style={{ width: '450px', height: '300px' }} id="videoElement" ></video>
+                    <video controls autoPlay style={{ width: '450px', height: '300px' }} id="videoElement" ></video>
                 </DialogContent>
                 <DialogActions>
                     <Button color="secondary" size="small" variant="contained"> <AddPhotoAlternateIcon /> Save Draft</Button>

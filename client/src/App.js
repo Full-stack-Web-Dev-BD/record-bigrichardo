@@ -18,20 +18,18 @@ import './assets/scss/index.scss';
 import validators from './common/validators';
 import store from './store';
 import {
-  Account,
   SignUp as SignUpView,
 } from './views';
 import { Main as MainLayout } from './layouts';
 import { RouteWithLayout } from './components';
 import Login from 'views/Login/Login';
-import Home from 'views/Home/Home'
 import Create from 'views/Create/Create'
 import Library from 'views/Library/Library'
-import Upgrade from 'views/Upgrade/Upgrade'
-import Help from 'views/Help/Help'
+import Help from 'views/Help/Help';
 
 
 import './updatedcss.css'
+import UpgradePlan from 'views/UpgradePlan/UpgradePlan';
 
 const browserHistory = createBrowserHistory();
 
@@ -56,9 +54,9 @@ if (localStorage.jwtToken) {
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     // Logout user
-    store.dispatch(logoutUser());
-    // Redirect to login
-    window.location.href = '/';
+    // store.dispatch(logoutUser());
+    // // Redirect to login
+    // window.location.href = '/';
   }
 }
 
@@ -86,14 +84,6 @@ const App = () => {
           <Route exact path="/sign-up" component={SignUpView} />
           <Switch>
             <RouteWithLayout
-              component={Home}
-              exact
-              layout={MainLayout}
-              path="/home"
-            />
-          </Switch>
-          <Switch>
-            <RouteWithLayout
               component={Create}
               exact
               layout={MainLayout}
@@ -110,7 +100,7 @@ const App = () => {
           </Switch>
           <Switch>
             <RouteWithLayout
-              component={Upgrade}
+              component={UpgradePlan}
               exact
               layout={MainLayout}
               path="/upgrade"
@@ -122,14 +112,6 @@ const App = () => {
               exact
               layout={MainLayout}
               path="/help"
-            />
-          </Switch>
-          <Switch>
-            <RouteWithLayout
-              component={Account}
-              exact
-              layout={MainLayout}
-              path="/account"
             />
           </Switch>
         </Router>

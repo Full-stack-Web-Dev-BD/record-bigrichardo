@@ -5,6 +5,7 @@ const passport=require('passport');
 const path=require('path');
 const users=require('./routes/users');
 const morgan = require('morgan');
+const videoRouter = require('./routes/video');
 
 
 const app=express();
@@ -13,6 +14,7 @@ const port=process.env.PORT || 5000;
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
+app.use('/uploads', express.static('./uploads'));
 
 app.use(passport.initialize());
 
@@ -30,6 +32,7 @@ mongoose
 
 //use routes
 app.use('/api/users',users);
+app.use('/api/video',videoRouter);
 
 if(process.env.NODE_ENV==='production'){
   app.use(express.static("client/build"));

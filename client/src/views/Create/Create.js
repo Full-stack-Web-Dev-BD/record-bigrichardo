@@ -1,39 +1,35 @@
 import { Button, Card, CardContent, TextField, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-import RecordingAnimation from './RecordingAnimation'
 import axios from 'axios'
 import VideoPlay from './VideoPlay';
-import About from 'views/Help/About';
 import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
 import PageFooter from 'layouts/Main/components/Footer/PageFooter';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import PublishIcon from '@material-ui/icons/Publish';
+import jwtDecoder from 'jwt-decode'
+import Axios from 'axios';
 
 
 
 const Create = () => {
+  const [headlineText, setHeadlineText] = useState('')
+  const [additionalText, setAdditionalText] = useState('')
+  const [buttonText, setButtonText] = useState('')
+  const [buttonLink, setButtonLink] = useState('')
+  const [isFinishRecord, setIsFinishRecord] = useState(false)
+  const [srcObject, setSrcObject] = useState(null)
+  const [recordedVideo, setRecordedVideo] = useState()
+  const [videoDesError, setVideoDesError] = useState('')
+
   const [showVideo, setShowVideo] = useState(false)
-  const [line1, setLine1] = useState('')
-  const [line2, setLine2] = useState('')
-  const [line3, setLine3] = useState('')
   const [isShow, setIsShow] = useState(false)
 
+  const [editable, setEditable] = useState(false)
+
+
   useEffect(() => {
+
 
 
     const link = document.getElementById('link');
@@ -91,7 +87,6 @@ const Create = () => {
     };
 
     captureBtn.onclick = async () => {
-      setIsStarted(true)
       download.style.display = 'none';
       const audio = true
       const mic = true
@@ -125,12 +120,17 @@ const Create = () => {
         let url = window.URL.createObjectURL(blob);
         videoelement.src = URL.createObjectURL(blob);
 
-        var videoObj = new FormData()
-        videoObj.append('video', blob)
-        uploadVideo(videoObj)
+        // var videoObj = new FormData()
+        // videoObj.append('video', blob)
+
+        // uploadVideo(videoObj)
+        // Axios.post('/api/video/create-video', videoObj)
+
+        setRecordedVideo(blob)
       };
 
       startBtn.click()
+      setIsStarted(true)
     };
     download.onclick = () => {
     }
@@ -140,9 +140,14 @@ const Create = () => {
     };
 
     stopBtn.onclick = () => {
+      if (!rec) {
+        return
+      }
       rec.stop();
       stream.getTracks().forEach(s => s.stop())
       stream = null;
+      setIsFinishRecord(true)
+      setIsStarted(false)
     };
     puseBtn.onclick = () => {
       rec.pause();
@@ -155,13 +160,40 @@ const Create = () => {
 
   const [isStarted, setIsStarted] = useState(false)
 
-
-
   const submitHandler = (e) => {
     e.preventDefault()
     setIsStarted(!isStarted)
   }
 
+  const uploadVideo = () => {
+    if (!headlineText || !additionalText || !buttonText || !buttonLink) {
+      return setVideoDesError('Please click on edit and  give us Headline Text , Additional Text , Button Text and Button Link for your video !!!')
+    }
+
+    if (localStorage.jwtToken) {
+      let ext = jwtDecoder(localStorage.jwtToken)
+      console.log(ext);
+      let x=new Date()
+      let j =x.toString()
+      let y=j.split(' ')
+      let createTime=`${y[0]} ${y[1]} ${y[2]}`
+      var videoObj = new FormData()
+      videoObj.append('file', recordedVideo)
+      videoObj.append('uid', ext.id)
+      videoObj.append('headlineText', headlineText)
+      videoObj.append('additionalText', additionalText)
+      videoObj.append('buttonText', buttonText)
+      videoObj.append('buttonLink', buttonLink)
+      videoObj.append('date', createTime)
+      Axios.post('/api/video/create-video', videoObj)
+      .then(res=>{
+        window.location.href='/library'
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+    }
+  }
   return (
     <>
       <div className="row pt-3 pb-5 page-content">
@@ -171,11 +203,12 @@ const Create = () => {
             <p>Capture Video demos , tutorials , presentations  , game and edit them quickly</p>
           </div>
           <div >
-            <div className="btnHolder d-none d-flex">
-              <button className="btn btn-success  ml-3" style={{ display: 'none' }} id="startBtn">sStart </button>
-              <button className="btn btn-danger  ml-3" style={{ display: 'none' }} disabled>Stop </button>
-              <button className="btn btn-primary  ml-3" style={{ display: 'none' }} id="puseBtn">puse </button>
-              <button className="btn btn-warning  ml-3" style={{ display: 'none' }} id="resumeBtn"> resume </button>
+            <div className="btnHolder d-none d-flex " style={{ visibility: 'hidden' }}>
+              {/* <button className="btn btn-success  ml-3" id="captureBtn">captureBtn </button> */}
+              <button className="btn btn-success  ml-3" id="startBtn">sStart </button>
+              <button className="btn btn-danger  ml-3" id='stopBtn' >Stop </button>
+              <button className="btn btn-primary  ml-3" id="puseBtn">puse </button>
+              <button className="btn btn-warning  ml-3" id="resumeBtn"> resume </button>
               <a id="download" href="#" style={{ display: 'none' }}>
                 <button>Download</button>
               </a>
@@ -183,43 +216,48 @@ const Create = () => {
           </div>
           < form onSubmit={e => { submitHandler(e) }} className="row">
             <div className="col-md-6">
-              {
-                isStarted ?
-                  <h2 className="text-center" >Recording ...</h2> :
-                  <div style={{ position: 'relative', height: '450px', paddingBottom: '120px' }}>
-                    {/* <div style={{ position: 'absolute' ,bottom:'-50px', zIndex: '999',borderRadius:'100%',transform:'translet(-50%)',left:'40%', position: 'absolute'}}>
-                    <img src="/images/recordButton.jpg" style={{borderRadius:'50%'}}  />
-                  </div> */}
-                    <div style={{ position: 'absolute', cursor: 'pointer', bottom: '-100px', zIndex: '999', borderRadius: '100%', transform: 'translate(-50%)', left: '50%', position: 'absolute' }}>
-                      <img id="captureBtn" src="/images/rc.jpg" />
-                    </div>
-                    <img id="" style={{ border: '1px solid gray', borderRadius: '10px', cursor: "pointer", position: 'absolute', width: '100%', height: '450px', zIndex: '9' }} src="/images/products/dummy.jpg" />
+              <div style={{ position: 'relative', height: '450px', paddingBottom: '120px' }}>
+              <div style={isFinishRecord ? {visibility:'hidden'}:{}} >
+                <div style={{ position: 'absolute', cursor: 'pointer', bottom: '-100px', zIndex: '999', borderRadius: '100%', transform: 'translate(-50%)', left: '50%', position: 'absolute' }}>
+                  <img id="captureBtn" style={isStarted ? { visibility: 'hidden' } : {}} src='/images/rc.jpg' />
+                  {
+                    isStarted ?
+                      <h2 style={!isStarted ? { visibility: 'hidden' } : {}} >Recording...</h2> : ''
+                  }
+                </div>
+                </div>
+                {
+                  isFinishRecord ?
+                    <div>
+                      <video controls autoPlay style={{ width: '100%', height: 'auto' }} id="videoElement" ></video>
+                      <Button color="secondary" size="small" onClick={e => uploadVideo()} variant="contained" className="ml-2"><PublishIcon /> Publish</Button>
 
-                  </div>
-              }
+                    </div> :
+                    <img id="" style={{ border: '1px solid gray', borderRadius: '10px', cursor: "pointer", position: 'absolute', width: '100%', height: '450px', zIndex: '9' }} src="/images/products/dummyThumb.jpg" />
+                }
+              </div>
             </div>
             <div className="col-md-4 mt-5">
               {
-                true ?
-                  <form>
+                editable ?
+                  <form onSubmit={e => submitHandler(e)}>
                     <label className="label">Headline text </label>
-                    <input className="form-control mb-3" placeholder="Enter your Headline text here " />
+                    <input onChange={e => { setHeadlineText(e.target.value) }} className="form-control mb-3" placeholder="Enter your Headline text here " />
                     <label className="label">Additional text</label>
                     <textarea
-                    placeholder="Enter your additonal text , use hyphen to add bullet points"
-                    className="form-control mb-3"
-                    rows="3"
+                      placeholder="Enter your additonal text , use hyphen to add bullet points"
+                      className="form-control mb-3"
+                      rows="3"
+                      onChange={e => { setAdditionalText(e.target.value) }}
                     />
                     <label className="label">Button Text</label>
-                    <input className="form-control mb-3" placeholder="Enter your  Button text  here " />
+                    <input onChange={e => { setButtonText(e.target.value) }} className="form-control mb-3" placeholder="Enter your  Button text  here " />
                     <label className="label">Button Link </label>
-                    <input className="form-control mb-3" placeholder="https://example.com " />
-                  <div>
-                    <button className="btn txt mr-3"> <DoneIcon/> Save</button>
-                    <button className="btn txt mr-3"> <ClearIcon/> Cancel</button>
-                  </div>
-                    
-
+                    <input onChange={e => { setButtonLink(e.target.value) }} className="form-control mb-3" placeholder="https://example.com " />
+                    <div>
+                      <button className="btn txt mr-3" onClick={e => setEditable(!editable)} type='submit'> <DoneIcon /> Save</button>
+                      <button className="btn txt mr-3" onClick={e => setEditable(!editable)}> <ClearIcon /> Cancel</button>
+                    </div>
                   </form> : <div>
                     <h2 style={{ textTransform: 'capitalize' }}>Your simple headline  text shows up here like this , you can idit it </h2>
                     <Typography style={{ fontSize: '20px', marginTop: '20px' }}>Additional text can  go  here . Use hyphen  to add bullet points like this how it shown below : </Typography>
@@ -229,19 +267,26 @@ const Create = () => {
                     </ul>
                     <button className="btn  buy" style={{ marginTop: '50px' }}> BUY NOW AT 49$</button>
                     <div style={{ marginTop: '80px' }}>
-                      <button className="btn " style={{ color: 'black', fontWeight: '500' }} > <EditIcon /> EDIT TEXT </button>
+                      <button className="btn " style={{ color: 'black', fontWeight: '500' }} onClick={e => setEditable(!editable)} > <EditIcon /> EDIT TEXT </button>
                     </div>
                   </div>
               }
             </div>
             <div className="col-md-2"></div>
           </form>
-          <div className="text-center d-flex mt-5" style={isShow ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+          {/* <div className="text-center d-flex mt-5" style={isShow ? { visibility: 'visible' } : { visibility: 'hidden' }}>
             <VideoPlay />
-          </div>
+          </div> */}
         </div>
       </div>
-      <PageFooter/>
+      {
+        videoDesError ?
+          <p className="txt text-danger text-center"> {videoDesError} </p> : ''
+      }
+      <div className="page-footer">
+        <button className="btn  draft-style" >SAVE DRAFT</button>
+        <button disabled={isFinishRecord?true:false} className="btn save-style" onClick={e => { document.getElementById('stopBtn').click() }} >PUBLISH</button>
+      </div>
     </>
   )
 }
