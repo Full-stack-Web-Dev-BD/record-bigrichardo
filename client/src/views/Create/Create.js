@@ -9,10 +9,10 @@ import PageFooter from 'layouts/Main/components/Footer/PageFooter';
 import PublishIcon from '@material-ui/icons/Publish';
 import jwtDecoder from 'jwt-decode'
 import Axios from 'axios';
+import BackupIcon from '@material-ui/icons/Backup';
 
 
-
-const Create = () => {
+const Create = () => {  
   const [headlineText, setHeadlineText] = useState('')
   const [additionalText, setAdditionalText] = useState('')
   const [buttonText, setButtonText] = useState('')
@@ -21,7 +21,7 @@ const Create = () => {
   const [srcObject, setSrcObject] = useState(null)
   const [recordedVideo, setRecordedVideo] = useState()
   const [videoDesError, setVideoDesError] = useState('')
-
+  const [loading, setLoading] = useState(false)
   const [showVideo, setShowVideo] = useState(false)
   const [isShow, setIsShow] = useState(false)
 
@@ -185,6 +185,7 @@ const Create = () => {
       videoObj.append('buttonText', buttonText)
       videoObj.append('buttonLink', buttonLink)
       videoObj.append('date', createTime)
+      setLoading(true)
       Axios.post('/api/video/create-video', videoObj)
       .then(res=>{
         window.location.href='/library'
@@ -231,7 +232,10 @@ const Create = () => {
                     <div>
                       <video controls autoPlay style={{ width: '100%', height: 'auto' }} id="videoElement" ></video>
                       <Button color="secondary" size="small" onClick={e => uploadVideo()} variant="contained" className="ml-2"><PublishIcon /> Publish</Button>
-
+                      {
+                        loading?
+                      <button  className="txt btn ml-4"> <BackupIcon/> Uploading ... </button>:''
+                      }
                     </div> :
                     <img id="" style={{ border: '1px solid gray', borderRadius: '10px', cursor: "pointer", position: 'absolute', width: '100%', height: '450px', zIndex: '9' }} src="/images/products/dummyThumb.jpg" />
                 }
