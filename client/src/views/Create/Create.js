@@ -12,7 +12,7 @@ import Axios from 'axios';
 import BackupIcon from '@material-ui/icons/Backup';
 
 
-const Create = () => {  
+const Create = () => {
   const [headlineText, setHeadlineText] = useState('')
   const [additionalText, setAdditionalText] = useState('')
   const [buttonText, setButtonText] = useState('')
@@ -29,31 +29,21 @@ const Create = () => {
 
 
   useEffect(() => {
-
-
-
     const link = document.getElementById('link');
     const uploaded_link = document.getElementById('uploaded_link');
     const st = document.getElementById('st');
-
-
-
     const uploadVideo = (videoObj) => {
       axios.post('https://test.sparkdatabox.com/host.php', videoObj)
         .then(res => {
         })
     }
-
-
     const captureBtn = document.getElementById('captureBtn');
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
     const download = document.getElementById('download');
     const puseBtn = document.getElementById('puseBtn')
     const resumeBtn = document.getElementById('resumeBtn')
-
     // if ('getDisplayMedia' in navigator.mediaDevices) warningEl.style.display = 'none';
-
     let blobs;
     let blob;
     let rec;
@@ -173,10 +163,10 @@ const Create = () => {
     if (localStorage.jwtToken) {
       let ext = jwtDecoder(localStorage.jwtToken)
       console.log(ext);
-      let x=new Date()
-      let j =x.toString()
-      let y=j.split(' ')
-      let createTime=`${y[0]} ${y[1]} ${y[2]}`
+      let x = new Date()
+      let j = x.toString()
+      let y = j.split(' ')
+      let createTime = `${y[0]} ${y[1]} ${y[2]}`
       var videoObj = new FormData()
       videoObj.append('file', recordedVideo)
       videoObj.append('uid', ext.id)
@@ -187,12 +177,12 @@ const Create = () => {
       videoObj.append('date', createTime)
       setLoading(true)
       Axios.post('/api/video/create-video', videoObj)
-      .then(res=>{
-        window.location.href='/library'
-      })
-      .catch(err=>{
-        console.log(err);
-      })
+        .then(res => {
+          window.location.href = '/library'
+        })
+        .catch(err => {
+          console.log(err);
+        })
     }
   }
   return (
@@ -218,14 +208,14 @@ const Create = () => {
           < form onSubmit={e => { submitHandler(e) }} className="row">
             <div className="col-md-6">
               <div style={{ position: 'relative', height: '450px', paddingBottom: '120px' }}>
-              <div style={isFinishRecord ? {visibility:'hidden'}:{}} >
-                <div style={{ position: 'absolute', cursor: 'pointer', bottom: '-100px', zIndex: '999', borderRadius: '100%', transform: 'translate(-50%)', left: '50%', position: 'absolute' }}>
-                  <img id="captureBtn" style={isStarted ? { visibility: 'hidden' } : {}} src='/images/rc.jpg' />
-                  {
-                    isStarted ?
-                      <h2 style={!isStarted ? { visibility: 'hidden' } : {}} >Recording...</h2> : ''
-                  }
-                </div>
+                <div style={isFinishRecord ? { visibility: 'hidden' } : {}} >
+                  <div style={{ position: 'absolute', cursor: 'pointer', bottom: '-100px', zIndex: '999', borderRadius: '100%', transform: 'translate(-50%)', left: '50%', position: 'absolute' }}>
+                    <img id="captureBtn" style={isStarted ? { visibility: 'hidden' } : {}} src='/images/rc.jpg' />
+                    {
+                      isStarted ?
+                        <h2 style={!isStarted ? { visibility: 'hidden' } : {}} >Recording...</h2> : ''
+                    }
+                  </div>
                 </div>
                 {
                   isFinishRecord ?
@@ -233,8 +223,8 @@ const Create = () => {
                       <video controls autoPlay style={{ width: '100%', height: 'auto' }} id="videoElement" ></video>
                       <Button color="secondary" size="small" onClick={e => uploadVideo()} variant="contained" className="ml-2"><PublishIcon /> Publish</Button>
                       {
-                        loading?
-                      <button  className="txt btn ml-4"> <BackupIcon/> Uploading ... </button>:''
+                        loading ?
+                          <button className="txt btn ml-4"> <BackupIcon /> Uploading ... </button> : ''
                       }
                     </div> :
                     <img id="" style={{ border: '1px solid gray', borderRadius: '10px', cursor: "pointer", position: 'absolute', width: '100%', height: '450px', zIndex: '9' }} src="/images/products/dummyThumb.jpg" />
@@ -289,7 +279,7 @@ const Create = () => {
       }
       <div className="page-footer">
         <button className="btn  draft-style" >SAVE DRAFT</button>
-        <button disabled={isFinishRecord?true:false} className="btn save-style" onClick={e => { document.getElementById('stopBtn').click() }} >PUBLISH</button>
+        <button disabled={isFinishRecord ? true : false} className="btn save-style" onClick={e => { document.getElementById('stopBtn').click() }} >PUBLISH</button>
       </div>
     </>
   )
